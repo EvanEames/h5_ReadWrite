@@ -1,6 +1,6 @@
 #READING IN IMAGES AND OUTPUTTING AN h5 FILE
 #Note: It's not necessary that the files are the same size, however they should all be the same file type
-#Note: For large number of files (a few thousand) this can take a while. Using height=width=224 and 8000 files this takes around and the resulting h5 is roughly 2Gb in size.
+#Note: For large number of files (a few thousand) this can take a while. Using height=width=224 and 8000 files this takes around 2h and the resulting h5 is roughly 2Gb in size.
 
 import cv2
 import datetime as dt
