@@ -39,7 +39,7 @@ if len(labels) != NUM_IMAGES:
 
 #Now we will write the h5 file:
 with h5py.File('./datasets/train_cars.h5', 'w') as hf:
-	#First, combine all the 
+	#First, combine all the images into one big array
 	for i,img in enumerate(images):
 		print("Now reading file "+str(i)+"/"+str(NUM_IMAGES))
 		image_tmp = cv2.imread(img)
