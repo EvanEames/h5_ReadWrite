@@ -1,6 +1,6 @@
 #READING IN IMAGES AND OUTPUTTING AN h5 FILE
 #Note: It's not necessary that the files are the same size, however they should all be the same file type
-#Note: For large number of files (a few thousand) this can take a while. Using height=width=224 and 8000 files this takes around 2h and the resulting h5 is roughly 2Gb in size.
+#Note: Using height=width=224 and 8000 files the resulting h5 is roughly 1Gb in size.
 
 import cv2
 import datetime as dt
@@ -16,7 +16,7 @@ from glob import glob
 #Specify here the directory in which the training data is found
 SOURCE_IMAGES = './datasets/train_cars'
 #And also the file type
-images = glob(os.path.join(SOURCE_IMAGES, "*.jpg"))
+images = sorted(glob(os.path.join(SOURCE_IMAGES, "*.jpg")))
 
 #Specify the files containing the labels
 #Note: Here I use a .txt file, however it can be any file type. the point is that at the end you should save them all into a 1D np array named 'labels'
@@ -39,11 +39,11 @@ if len(labels) != NUM_IMAGES:
 
 #Now we will write the h5 file:
 with h5py.File('./datasets/train_cars.h5', 'w') as hf:
-	#First, combine all the images into one big array
+	#First, combine all the 
 	for i,img in enumerate(images):
-		print("Now reading file "+str(i)+"/"+str(NUM_IMAGES))
+		print("Now reading file "+str(i+1)+"/"+str(NUM_IMAGES))
 		image_tmp = cv2.imread(img)
-		image[i][:][:][:] = cv2.resize(image_tmp, (WIDTH,HEIGHT), interpolation=cv2.INTER_CUBIC)
+		image[i][:][:][:] = cv2.resize(image_tmp, (WIDTH,HEIGHT), interpolation=cv2.INTER_CUBIC).astype(int)
 	print("Now creating the h5 file, this may take some time...")
 	#Compress and write the images
 	Xset = hf.create_dataset(
@@ -51,6 +51,7 @@ with h5py.File('./datasets/train_cars.h5', 'w') as hf:
 		data=image,
 		shape=(NUM_IMAGES,HEIGHT, WIDTH, CHANNELS),
 		maxshape=(NUM_IMAGES,HEIGHT, WIDTH, CHANNELS),
+		dtype = np.uint8,
 		compression="gzip",
 		compression_opts=9)
 	#Compress and write the labels
@@ -59,7 +60,6 @@ with h5py.File('./datasets/train_cars.h5', 'w') as hf:
 		data = (labels),
 		shape=(NUM_IMAGES,),
 		maxshape=(NUM_IMAGES,),
+		dtype = np.uint8,
 		compression="gzip",
 		compression_opts=9)
-
-
