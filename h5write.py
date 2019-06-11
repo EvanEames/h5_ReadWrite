@@ -19,7 +19,7 @@ SOURCE_IMAGES = './datasets/train_cars'
 images = sorted(glob(os.path.join(SOURCE_IMAGES, "*.jpg")))
 
 #Specify the files containing the labels
-#Note: Here I use a .txt file, however it can be any file type. the point is that at the end you should save them all into a 1D np array named 'labels'
+#Note: Here I use a .txt file, however it can be any file type. The point is that, regardless of how you do it, at the end you should save them all into a 1D np array named 'labels'
 labelsDF = pd.read_csv('devkit/train_perfect_preds.txt',header=None)
 labels = np.zeros(0,)
 for i in labelsDF[0]:
